@@ -10,6 +10,9 @@ public class LogAnalyzer
     private int[] hourCounts;
     // Use a LogfileReader to access the data.
     private LogfileReader reader;
+    
+    private String filename;
+    
 
     /**
      * Create an object to analyze hourly web accesses.
@@ -21,6 +24,7 @@ public class LogAnalyzer
         hourCounts = new int[24];
         // Create the reader to obtain the data.
         reader = new LogfileReader();
+        
     }
 
     /**
@@ -34,7 +38,53 @@ public class LogAnalyzer
             hourCounts[hour]++;
         }
     }
-
+    
+    public int numberOfAccesses()
+    {
+        int total = 0;
+        for(int hour = 0; hour < hourCounts.length; hour++)
+        {
+            total = total + hourCounts[hour];
+        }
+        return total;
+    }
+    
+    public int FindBusiestHour()
+    {
+        int busy = 0;
+        for(int hour = 0; hour < hourCounts.length; hour++)
+        {
+            if(hourCounts[busy] < hourCounts[hour])
+            {
+                busy = hour;
+            }
+        }
+        return busy;
+    }
+    
+    public int FindQuietestHour()
+   {
+        int quiet = 0;
+        for(int hour = 0; hour < hourCounts.length; hour++)
+        {
+            if(hourCounts[quiet] > hourCounts[hour])
+            {
+                quiet = hour;
+            }
+        }
+        return quiet;
+    }
+   
+    public void PrintBusiestHour()
+    {
+        System.out.println("The busiest hour is: hour " + FindBusiestHour());
+    }
+    
+    public void PrintQuiestHour()
+    {
+        System.out.println("The quietest hour is hour " + FindQuietestHour());
+    }
+        
     /**
      * Print the hourly counts.
      * These should have been set with a prior
